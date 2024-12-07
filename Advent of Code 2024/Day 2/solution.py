@@ -23,21 +23,26 @@ print("Part 1: Anzahl von sicheren Reports:",safe_reports)
 #Part 1 complete after changing the casting method
 
 safe_reports = 0
+removed = 0
+
 def isascending(list):
     return all(list[index] <= list[index + 1] for index in range(0,len(list) - 1))
 
 def isdescending(list):
     return all(list[index] >= list[index + 1] for index in range(0,len(list) - 1))
-
-temp_report = report.copy()
     #checking ascending and descending reports seperately
-    if isascending(temp_report):
+input_file=open("input.txt","r")    
+for report_list in input_file:
+    report=report_list.rstrip('\n').split(" ")
+    report = list(map(int, report))
+    if isascending(report):
         for x in range(0,len(report) - 2):
-            while removed == 0:
-                if report[x + 1] > report[x] and report[x + 2] < report[x + 1]:
-                    removed = 1
-                    temp_report.pop(x + 1)
-            if strictlyascending(temp_report):
+            if report[x + 1] > report[x] and report[x + 2] < report[x + 1]:
+                removed = 1
+                report.pop(x + 1)
+            else: x += 1
+            removed = 0
+            if strictlyascending(report):
                 for x in range(0,len(report) - 1):
                     difference = abs(report[x] - report[x + 1])
                     difference_per_level.append(difference)
