@@ -15,10 +15,10 @@ input_file=open("input.txt","r")
 for report_list in input_file:
     report=report_list.rstrip('\n').split(" ")
     report = list(map(int, report))
-    removed = 0
+    removed = False
     x = 0
     difference_per_level.clear()
-    while removed == 0 and x in range(0,len(report)):
+    while removed == False and x in range(0,len(report)):
         buffer = report[x]
         report.pop(x)
         if strictlyascending(report) or strictlydescending(report):
@@ -28,11 +28,12 @@ for report_list in input_file:
                 difference_per_level.sort(reverse=True)
             if difference_per_level[0] <= 3:
                 safe_reports += 1
-                removed == 1
+                removed = True
                 x = len(report)
                 difference_per_level.clear()
         if len(difference_per_level) >= len(report) -1:
             x = len(report)
-        else: report.insert(x,buffer)
+        else: 
+            report.insert(x,buffer)
         x += 1
 print ("Part 2: Anzahl sicherer Reports mit Dampener:",safe_reports)
